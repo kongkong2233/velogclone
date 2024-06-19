@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+</head>
+<body>
+    <h1>마이페이지</h1>
+    <div>
+        <h2>유저 정보</h2>
+        <p><strong>유저 아이디: </strong><span th:text="${user.userName}"></span></p>
+        <p><strong>이메일: </strong><span th:text="${user.email}"></span></p>
+    </div>
+</body>
+</html>
