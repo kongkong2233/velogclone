@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter@Setter
@@ -25,9 +28,28 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private boolean isAdmin;
+    @Column
+    private LocalDate registrationDate;
 
     @Column
     private String profileImage;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> role = new HashSet<>();
+
+    @PrePersist
+    protected void onRegist() {
+        registrationDate = LocalDate.now();
+    }
+
+    public void addRole(Role role) {
+        this.role.add(role);
+    }
+
+    public void removeRole(Role role) {
+        this.role.remove(role);
+    }
 }
