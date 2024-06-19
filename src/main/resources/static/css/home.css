@@ -1,0 +1,28 @@
+.top-nav {
+    padding: 20px 30px 20px 30px;
+}
+
+.top-nav-sub1 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.login-link {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #ff8033;
+    padding: 10px 15px 10px 15px;
+    margin: 1px 0px 0px 0px;
+    border-radius: 30px;
+}
+
+.login-link:visited {
+    color: black;
+}
+
+.main-content {
+    width: 100%;
+    height: 1000px;
+    background-color: #efe7e1;
+}
