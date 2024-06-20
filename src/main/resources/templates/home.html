@@ -10,11 +10,49 @@
     <div class="top-nav">
         <div class="top-nav-sub1">
             <h1>LIKELIONLOG</h1>
-            <a href="/loginform" class="login-link">로그인</a>
+            <div id="default">
+                <a href="/loginform" class="login-link">로그인</a>
+            </div>
+            <div id="iscookie" class="hidden">
+                <a class="new-post-button" href="posts/create">새 글 작성</a>
+                <a id="user-link"><span id="user-name" class="user-name"></span></a>
+            </div>
         </div>
     </div>
     <div class="main-content">
-
+        <ul>
+            <li th:each="post : ${posts}">
+                <a th:href="@{/posts/{postId}(postId=${post.postId})}" th:text="${post.title}">글 제목</a>
+            </li>
+        </ul>
     </div>
+
+    <script>
+        function getCookie(name) {
+            let value = `; ${document.cookie}`;
+            let parts = value.split(`; ${name}=`);
+            if (parts.length === 2)
+                return parts.pop().split(';').shift();
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const loginButton = document.getElementById('default');
+            const isCookieElement = document.getElementById('iscookie');
+            const userNameElement = document.getElementById('user-name');
+            const userLinkElement = document.getElementById('user-link');
+
+            const userName = getCookie('username');
+
+            if (userName) {
+                loginButton.classList.add('hidden');
+                isCookieElement.classList.remove('hidden');
+                userNameElement.textContent = `${userName}`;
+                userLinkElement.href = `/@${userName}`;
+            } else {
+                loginButton.classList.remove('hidden');
+                userNameElement.classList.add('hidden');
+            }
+        })
+    </script>
 </body>
 </html>

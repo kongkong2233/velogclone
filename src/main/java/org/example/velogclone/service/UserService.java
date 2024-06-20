@@ -2,6 +2,7 @@ package org.example.velogclone.service;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.example.velogclone.domain.Post;
 import org.example.velogclone.domain.Role;
 import org.example.velogclone.domain.RoleName;
 import org.example.velogclone.domain.User;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -34,7 +37,6 @@ public class UserService {
             adminUser.setEmail("admin@gmail.com");
             adminUser.setUserNick("관리자");
             adminUser.setRegistrationDate(LocalDate.now());
-            adminUser.setProfileImage(null);
             adminUser.addRole(roleRepository.findByRoleName(RoleName.ROLE_ADMIN)
                     .orElseThrow(() -> new RuntimeException("Role not found")));
             userRepository.save(adminUser);
@@ -48,10 +50,17 @@ public class UserService {
         user.setPassword(password);
         user.setUserNick(usernick);
         user.setRegistrationDate(LocalDate.now());
-        user.setProfileImage(null);
         user.addRole(roleRepository.findByRoleName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Role not found")));
         return userRepository.save(user);
+    }
+
+    public Set<Post> getUserPosts(String username) {
+        Optional<User> userOptional = userRepository.findByUserName(username);
+        if (userOptional.isPresent()) {
+            return userOptional.get().getPosts();
+        }
+        throw new RuntimeException("User not found");
     }
 
     public Optional<User> findByUserName(String userName) {
