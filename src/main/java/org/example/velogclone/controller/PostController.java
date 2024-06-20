@@ -36,7 +36,7 @@ public class PostController {
                              @RequestParam("username") String username, @RequestParam(value = "imageUrls", required = false) List<String> imageUrls) {
         //게시물 등록
         postService.createPost(title, content, username, imageUrls);
-        return "redirect:/posts";
+        return "redirect:/";
     }
 
     @GetMapping("/{postId}/edit")
