@@ -3,3 +3,12 @@
     margin: 0;
 }
 
+.top-nav-common {
+    padding: 20px 30px 20px 30px;
+}
+
+.top-nav-common-sub1 {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}

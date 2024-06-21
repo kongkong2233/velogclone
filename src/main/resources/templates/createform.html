@@ -4,23 +4,26 @@
     <meta charset="UTF-8">
     <title>글 작성</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/postform.css">
 </head>
 <body>
     <form th:action="@{/posts/create}" th:method="post">
-        <div>
+        <div class="title-box">
             <label for="title"></label>
             <input type="text" id="title" name="title" placeholder="제목을 입력하세요">
         </div>
-        <div>
+        <div class="name-box">
             <label for="username"></label>
             <input type="text" id="username-display" readonly>
             <input type="hidden" id="username" name="username">
         </div>
-        <div>
+        <div class="content-box">
             <label for="content"></label>
-            <textarea id="content" name="content" placeholder="내용을 입력하세요"></textarea>
+            <textarea id="content" name="content" placeholder="당신의 이야기를 적어보세요..."></textarea>
         </div>
-        <button type="submit">출간하기</button>
+        <div class="button-box">
+            <button type="submit" class="create-button">출간하기</button>
+        </div>
     </form>
 
     <script>

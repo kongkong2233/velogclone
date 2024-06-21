@@ -1,0 +1,33 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 20px 500px 20px 500px;
+}
+
+.post-box {
+    width: 100%;
+}
+
+.post-box div {
+    margin-top: 20px;
+}
+
+.title {
+    font-size: 48px;
+}
+
+.name-date-box {
+    display: flex;
+    font-size: 18px;
+}
+
+.username {
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.content {
+    font-size: 24px;
+}

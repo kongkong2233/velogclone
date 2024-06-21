@@ -20,11 +20,16 @@
         </div>
     </div>
     <div class="main-content">
-        <ul>
-            <li th:each="post : ${posts}">
-                <a th:href="@{/posts/{postId}(postId=${post.postId})}" th:text="${post.title}">글 제목</a>
-            </li>
-        </ul>
+        <div class="post-container">
+            <ul>
+                <li th:each="post : ${posts}" class="post-item">
+                    <div class="image-box"></div>
+                    <a th:href="@{/posts/{postId}(postId=${post.postId})}" th:text="${post.title}">글 제목</a>
+                    <p th:text="${post.content}">글 내용</p>
+                    <div class="bottom-box"></div>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <script>

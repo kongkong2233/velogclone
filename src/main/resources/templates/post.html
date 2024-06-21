@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <title th:text="${post.title}">글 상세 페이지</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/post.css">
 </head>
 <body>
-    <div>
-        <h1 th:text="${post.title}">글 제목</h1>
-        <div>
-            <p th:text="${post.user.userName}">작성자</p>
-            <p th:text="${post.getCreatedAt()}">등록일</p>
+    <div class="post-box">
+        <h1 th:text="${post.title}" class="title">글 제목</h1>
+        <div class="name-date-box">
+            <p th:text="${post.user.userName}" class="username">작성자</p>
+            <p th:text="${post.getCreatedAt()}" class="createdate">등록일</p>
         </div>
         <div>
-            <p th:text="${post.content}">글 내용</p>
+            <p th:text="${post.content}" class="content">글 내용</p>
         </div>
-        <a id="blog-link">블로그로</a>
+        <a id="blog-link2">블로그로</a>
     </div>
 
     <script>
@@ -26,11 +27,13 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            const blogLink = document.getElementById('blog-link');
+            const blogLink1 = document.getElementById('blog-link1');
+            const blogLink2 = document.getElementById('blog-link2');
             const username = getCookieValue('username');
 
             if (username) {
-                blogLink.href = `/@${username}/posts`;
+                blogLink1.href = `/@${username}/posts`;
+                blogLink2.href = `/@${username}/posts`;
             } else {
                 console.error('유저 이름을 쿠키에서 찾을 수 없습니다.');
             }
