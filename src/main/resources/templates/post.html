@@ -17,6 +17,9 @@
             <p th:text="${post.content}" class="content">글 내용</p>
         </div>
         <a id="blog-link2">블로그로</a>
+        <div th:if="${currentUsername != null and currentUsername == post.user.userName}">
+            <a th:href="@{/posts/{postId/edit(postId=${post.postId})}" class="edit-button">수정하기</a>
+        </div>
     </div>
 
     <script>

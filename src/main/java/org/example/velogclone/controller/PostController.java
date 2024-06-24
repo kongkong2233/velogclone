@@ -1,8 +1,10 @@
 package org.example.velogclone.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.example.velogclone.domain.Post;
 import org.example.velogclone.service.PostService;
+import org.example.velogclone.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+    private final UserService userService;
 
     @GetMapping("/{postId}")
     public String getPostById(@PathVariable("postId") Long postId, Model model) {
@@ -40,11 +43,23 @@ public class PostController {
     }
 
     @GetMapping("/{postId}/edit")
-    public String showEditPost(@PathVariable("postId") Long postId, Model model) {
+    public String showEditPost(@PathVariable("postId") Long postId, Model model, HttpServletRequest request) {
         //게시글 수정 폼
-        Optional<Post> post = postService.getPostById(postId);
-        model.addAttribute("post", post);
-        return "editform";
+        Optional<Post> optionalPost = postService.getPostById(postId);
+        if (optionalPost.isPresent()) {
+            Post post = optionalPost.get();
+            model.addAttribute("post", post);
+
+            String currentUsername =
+                    request.getUserPrincipal() != null ? request.getUserPrincipal().getName() : null;
+
+            if (currentUsername != null && currentUsername.equals(post.getUser().getUserName())) {
+                model.addAttribute("username", currentUsername);
+            }
+            return "post";
+        } else {
+            return String.format("redirect:/posts/%d", postId);
+        }
     }
 
     @PostMapping("/{postId}/edit")

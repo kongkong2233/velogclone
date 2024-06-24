@@ -25,6 +25,8 @@ public class User {
     private String password;
     @Column
     private LocalDate registrationDate;
+    @Column
+    private String blogName;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
                 joinColumns = @JoinColumn(name = "user_id"),
@@ -36,6 +38,7 @@ public class User {
     @PrePersist
     protected void onRegist() {
         registrationDate = LocalDate.now();
+        blogName = userName + ".log";
     }
 
     public void addRole(Role role) {

@@ -5,6 +5,8 @@
     <title>velogy</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/home.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
 </head>
 <body>
     <div class="top-nav">
@@ -18,6 +20,10 @@
                 <a id="user-link"><span id="user-name" class="user-name"></span></a>
             </div>
         </div>
+    </div>
+    <div>
+        <button id="sendCookieButton">Send Cookie to API</button>
+        <p id="responseText"></p>
     </div>
     <div class="main-content">
         <div class="post-container">
@@ -47,17 +53,34 @@
             const userLinkElement = document.getElementById('user-link');
 
             const userName = getCookie('username');
+            const userNick = getCookie('usernick')
+            console.log(userName);
 
             if (userName) {
                 loginButton.classList.add('hidden');
                 isCookieElement.classList.remove('hidden');
-                userNameElement.textContent = `${userName}`;
+                userNameElement.textContent = `${userNick}`;
                 userLinkElement.href = `/@${userName}`;
+                console.log(userLinkElement.href);
             } else {
                 loginButton.classList.remove('hidden');
                 userNameElement.classList.add('hidden');
             }
         })
+        $(document).ready(function () {
+            $("#sendCookieButton").click(function () {
+                $.ajax({
+                    url: "/api/sendCookie",
+                    type: "GET",
+                    success: function (response) {
+                        $("#responseText").text("Response from API: " + response);
+                    },
+                    error: function () {
+                        $("#responseText").text("Failed to send cookie to API")
+                    },
+                });
+            });
+        });
     </script>
 </body>
 </html>

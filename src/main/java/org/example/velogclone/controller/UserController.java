@@ -7,6 +7,7 @@ import org.example.velogclone.domain.Post;
 import org.example.velogclone.domain.User;
 import org.example.velogclone.service.PostService;
 import org.example.velogclone.service.UserService;
+import org.example.velogclone.util.UserContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,22 +43,40 @@ public class UserController {
     public String loginUser(@RequestParam("username") String username,
                             @RequestParam("password") String password, HttpServletResponse response) {
         if (userService.validateUser(username, password)) {
-            Cookie cookie = new Cookie("username", username);
-            cookie.setMaxAge(60 * 60 * 24); //하루
-            response.addCookie(cookie);
+            User user = userService.findByUserName(username).orElseThrow(() -> new RuntimeException("User not found"));
+
+            Cookie usernameCookie = new Cookie("username", username);
+            Cookie usernickCookie = new Cookie("usernick", user.getUserNick());
+            usernameCookie.setPath("/");
+            usernickCookie.setPath("/");
+            usernameCookie.setMaxAge(60 * 60 * 24);
+            usernickCookie.setMaxAge(60 * 60 * 24);
+            response.addCookie(usernameCookie);
+            response.addCookie(usernickCookie);
+
+            UserContext.setUser(username);
             return "redirect:/";
         }
         return "redirect:/loginform?error";
     }
 
+//    public String showMyPage(@PathVariable("username") String username, Model model) {
+//        Optional<User> userOptional = userService.findByUserName(username);
+//        if (userOptional.isPresent()) {
+//            model.addAttribute("user", userOptional.get());
+//            return "mypage";
+//        }
+//        return "redirect:/loginform";
+//    }
     @GetMapping("/@{username}")
-    public String showMyPage(@PathVariable("username") String username, Model model) {
-        Optional<User> userOptional = userService.findByUserName(username);
-        if (userOptional.isPresent()) {
-            model.addAttribute("user", userOptional.get());
+    public String showMyPage(Model model) {
+        String userName = UserContext.getUser();
+        if (userName != null) {
+            model.addAttribute("username", userName);
             return "mypage";
+        } else {
+            return "redirect:/loginform";
         }
-        return "redirect:/loginform";
     }
 
     @GetMapping("/@{username}/posts")

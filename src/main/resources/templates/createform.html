@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/postform.css">
 </head>
 <body>
-    <form th:action="@{/posts/create}" th:method="post">
+    <form th:action="@{/posts/create}" th:method="post" onsubmit="setUsername()">
         <div class="title-box">
             <label for="title"></label>
             <input type="text" id="title" name="title" placeholder="제목을 입력하세요">
@@ -34,21 +34,25 @@
                 return parts.pop().split(';').shift();
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const usernameDisplayField = document.getElementById('username-display');
+        function setUsername() {
             const usernameHiddenField = document.getElementById('username');
             const username = getCookieValue('username');
-
             if (username) {
-                console.log(`Cookie: ${document.cookie}`);
-                console.log(`Username from cookie: ${username}`);
-
-                usernameDisplayField.value = username;
                 usernameHiddenField.value = username;
             } else {
-                console.error('유저 이름을 쿠키에서 찾을 수 없습니다.')
+                console.error('유저 이름을 쿠키에서 찾을 수 없습니다.');
             }
-        });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const usernameDisplayField = document.getElementById('username-display');
+            const username = getCookieValue('usernick');
+            if (username) {
+                usernameDisplayField.value = username;
+            } else {
+                console.error('유저 이름을 쿠키에서 찾을 수 없습니다.');
+            }
+        })
     </script>
 </body>
 </html>

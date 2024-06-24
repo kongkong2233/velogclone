@@ -17,7 +17,7 @@ form {
     font-weight: bold;
     padding: 10px 20px 10px 20px;
     border: none;
-    border-bottom: solid 5px #250e07;
+    border-bottom: solid 3px #250e07;
 }
 
 .title-box input:focus {
